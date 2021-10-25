@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	//"gopkg.in/dealancer/validate.v2"
 	errs "github.com/pkg/errors"
 	"github.com/teris-io/shortid"
+	"gopkg.in/dealancer/validate.v2"
 )
 
 var (
@@ -27,7 +27,7 @@ func (r *redirectService) Find(code string) (*Redirect, error) {
 }
 
 func (r *redirectService) Store(redirect *Redirect) error {
-	if err := validate.validate(redirect); err != nil {
+	if err := validate.Validate(redirect); err != nil {
 		return errs.Wrap(ErrRedirectInvalid, "service.Redirect.Store")
 	}
 	redirect.Code = shortid.MustGenerate()
