@@ -3,13 +3,13 @@ package api
 import (
 	"io/ioutil"
 	"log"
+	js "microservice-shortener/serializer/json"
+	"microservice-shortener/shortener"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/pkg/errors"
-
-	js "microservice-shortener/serializer/json"
-	"microservice-shortener/shortener"
+	//"golang.org/x/tools/godoc/redirect"
 )
 
 type RedirectHandler interface {
@@ -50,6 +50,7 @@ func (h *handler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Redirect(w, r, redirect.URL, http.StatusMovedPermanently)
+
 }
 
 func (h *handler) Post(w http.ResponseWriter, r *http.Request) {
