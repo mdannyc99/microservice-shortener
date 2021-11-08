@@ -15,11 +15,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/joho/godotenv"
 	//"github.com/joho/godotenv"
 )
 
 func main() {
-
 	//err := godotenv.Load()
 	/*
 		if err != nil {
@@ -27,6 +27,11 @@ func main() {
 		}
 	*/
 
+	err := godotenv.Load()
+	_, localEnvSettled := os.LookupEnv("MONGO_URL")
+	if err != nil && localEnvSetted == false {
+		log.Fatal("Error loading .env file")
+	}
 	repo := chooseRepo()
 	service := shortener.NewRedirectService(repo)
 	handler := h.NewHandler(service)

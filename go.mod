@@ -1,4 +1,5 @@
 module microservice-shortener
+// +heroku goVersion go 1.17.2
 
 go 1.17
 
