@@ -20,15 +20,8 @@ import (
 )
 
 func main() {
-	//err := godotenv.Load()
-	/*
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	*/
-
 	err := godotenv.Load()
-	_, localEnvSettled := os.LookupEnv("MONGO_URL")
+	_, localEnvSetted := os.LookupEnv("MONGO_URL")
 	if err != nil && localEnvSetted == false {
 		log.Fatal("Error loading .env file")
 	}
@@ -42,7 +35,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	r.Get("/{code}", handler.Get)
-	r.Get("/", handler.Post)
+	r.Post("/", handler.Post)
 
 	errs := make(chan error, 2)
 	go func() {
