@@ -33,7 +33,7 @@ func TestInvalid(t *testing.T) {
 	repo := NewMockRepository()
 	service := NewRedirectService(repo)
 	redirect := Redirect{
-		URL: "https://google.com",
+		URL: "google.com",
 	}
 	err := service.Store(&redirect)
 	assert.ErrorIs(t, err, ErrRedirectInvalid)

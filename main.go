@@ -15,11 +15,30 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	//"github.com/joho/godotenv"
 )
 
 func main() {
+	r := chi.NewRouter()
+	// Basic CORS
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
+	/*
+	   r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	     w.Write([]byte("welcome"))
+	   })
+
+	   http.ListenAndServe(":3000", r)
+	*/
 	err := godotenv.Load()
 	_, localEnvSetted := os.LookupEnv("MONGO_URL")
 	if err != nil && localEnvSetted == false {
@@ -28,7 +47,7 @@ func main() {
 	repo := chooseRepo()
 	service := shortener.NewRedirectService(repo)
 	handler := h.NewHandler(service)
-	r := chi.NewRouter()
+
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
